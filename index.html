@@ -1,477 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transc Grade(Element)</title>
+<title>Dragon Info Site made by Nix</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
-#top{margin-bottom:12px}
-#search-bar{display:flex;gap:8px;margin-bottom:8px}
-#search-bar input{flex:1;padding:16px 20px;border:1px solid #444;border-radius:8px;font-size:16px;background:#2a2a3e;color:#eee}
-#search-bar input::placeholder{color:#888}
-#filter-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
-.ftag{padding:4px 10px;border-radius:20px;font-size:11px;border:1px solid #555;cursor:pointer;background:#2a2a3e;color:#aaa}
-.ftag.active{background:#4a90d9;color:#fff;border-color:#4a90d9}
-#count{font-size:12px;color:#888;margin-bottom:8px}
-#panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.panel{border-radius:10px;overflow:hidden;border:1px solid #333}
-.panel-header{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:15px;font-weight:700}
-.panel-header .elem-icon{width:36px;height:36px;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,0,0,0.2)}
-.panel-header .elem-icon img{width:100%;height:100%;object-fit:cover}
-.panel-Earth .panel-header{background:linear-gradient(90deg,#b5651d,#d4863a)}
-.panel-Water .panel-header{background:linear-gradient(90deg,#1565c0,#1e88e5)}
-.panel-Fire .panel-header{background:linear-gradient(90deg,#b71c1c,#e53935)}
-.panel-Wind .panel-header{background:linear-gradient(90deg,#1b5e20,#388e3c)}
-.panel-Light .panel-header{background:linear-gradient(90deg,#e65100,#fb8c00)}
-.panel-Dark .panel-header{background:linear-gradient(90deg,#311b92,#5e35b1)}
-.panel-Dusk .panel-header{background:linear-gradient(90deg,#880e4f,#c2185b)}
-.panel-Dawn .panel-header{background:linear-gradient(90deg,#4e342e,#795548)}
-.panel-Nightmare .panel-header{background:linear-gradient(90deg,#4a148c,#7b1fa2)}
-.panel table{width:100%;border-collapse:collapse;font-size:12px;background:#1e1e30}
-.panel thead tr{background:#252538}
-.panel th{padding:6px 8px;text-align:center;font-weight:500;color:#aaa;border-bottom:1px solid #333;white-space:nowrap;font-size:11px}
-.panel th.left{text-align:left}
-.panel td{padding:5px 8px;border-bottom:0.5px solid #2a2a3e;vertical-align:middle;color:#ddd}
-.panel td.center{text-align:center}
-.panel tr:hover td{background:#252540}
-.rank{font-size:11px;color:#888;text-align:center;width:24px}
-.dragon-img{width:36px;height:36px;border-radius:6px;object-fit:cover;display:block}
-.img-placeholder{width:36px;height:36px;border-radius:6px;background:#2a2a3e;border:1px dashed #444;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px}
-.badge-type{font-size:10px;padding:2px 5px;border-radius:6px;background:#2e2e4a;color:#aaa;white-space:nowrap}
-.lv-o{color:#66bb6a;font-weight:700}
-.lv-x{color:#ef5350;font-weight:700}
-.t-blue  {color:#5dcff5 !important;font-weight:700;font-size:13px;text-shadow:0 0 6px rgba(93,207,245,0.6)}
-.t-gold  {color:#f5c842 !important;font-weight:700;font-size:13px;text-shadow:0 0 6px rgba(245,200,66,0.5)}
-.t-silver{color:#a8b4c0 !important;font-weight:700;font-size:13px;text-shadow:0 0 4px rgba(168,180,192,0.4)}
-.t-pink  {color:#c4879e !important;font-weight:700;font-size:13px;text-shadow:0 0 4px rgba(196,135,158,0.4)}
-.t-neg   {color:#ef5350 !important;font-weight:700;font-size:13px}
-.no-data td{text-align:center;padding:1rem;color:#555}
-/* Element row gradient - Advent dragons only */
-.panel-Earth tr.ex-true { background: linear-gradient(90deg, rgba(181,101,29,0.25) 0%, transparent 30%); }
-.panel-Water tr.ex-true { background: linear-gradient(90deg, rgba(21,101,192,0.25) 0%, transparent 30%); }
-.panel-Fire tr.ex-true { background: linear-gradient(90deg, rgba(183,28,28,0.25) 0%, transparent 30%); }
-.panel-Wind tr.ex-true { background: linear-gradient(90deg, rgba(27,94,32,0.25) 0%, transparent 30%); }
-.panel-Light tr.ex-true { background: linear-gradient(90deg, rgba(230,81,0,0.25) 0%, transparent 30%); }
-.panel-Dark tr.ex-true { background: linear-gradient(90deg, rgba(49,27,146,0.25) 0%, transparent 30%); }
-.panel-Dusk tr.ex-true { background: linear-gradient(90deg, rgba(136,14,79,0.25) 0%, transparent 30%); }
-.panel-Dawn tr.ex-true { background: linear-gradient(90deg, rgba(78,52,46,0.3) 0%, transparent 30%); }
-.panel-Nightmare tr.ex-true { background: linear-gradient(90deg, rgba(74,20,140,0.25) 0%, transparent 30%); }
+body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;min-height:100vh;padding:24px}
+
+
+
+.patch-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center}
+.patch-modal-overlay.open{display:flex}
+.patch-modal{background:#1e1e30;border:1px solid #333;border-radius:12px;padding:24px;width:90%;max-width:480px;max-height:70vh;overflow-y:auto;position:relative}
+.patch-modal-title{font-size:16px;font-weight:700;color:#eee;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.patch-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#aaa;font-size:18px;cursor:pointer}
+.patch-modal-close:hover{color:#eee}
+.patch-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #2a2a3e}
+.patch-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.patch-item-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.patch-item-ver{font-size:13px;font-weight:700;color:#5dcff5}
+.patch-item-date{font-size:11px;color:#666}
+.patch-item-badge{font-size:10px;padding:2px 8px;border-radius:10px;margin-left:auto}
+.badge-new{background:rgba(102,187,106,0.15);color:#66bb6a;border:1px solid rgba(102,187,106,0.3)}
+.badge-fix{background:rgba(239,83,80,0.15);color:#ef5350;border:1px solid rgba(239,83,80,0.3)}
+.badge-update{background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3)}
+.patch-item-content{font-size:12px;color:#aaa;line-height:2}
+.patch-item-content li{list-style:none;padding-left:12px;position:relative}
+.patch-item-content li::before{content:"·";position:absolute;left:0;color:#5dcff5}
+.patch-more-btn{display:block;width:100%;margin-top:16px;padding:10px;background:#252538;border:1px solid #444;border-radius:8px;color:#5dcff5;font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;font-family:inherit}
+.patch-more-btn:hover{background:#2e2e48;border-color:#5dcff5}
+.patch-note-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #333;background:#1e1e30;color:#aaa;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.patch-note-btn:hover{border-color:#5dcff5;color:#eee;background:#252540}
+.patch-note-icon{font-size:14px}
+
+.contact-bar{display:flex;gap:12px;justify-content:center;margin-bottom:32px}
+.contact-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;border:1px solid #333;background:#1e1e30;text-decoration:none;color:#aaa;font-size:12px;transition:all 0.15s}
+.contact-btn:hover{border-color:#5dcff5;color:#eee;background:#252540}
+.contact-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.contact-kakao .contact-icon{background:#FEE500;color:#3C1E1E}
+.contact-discord .contact-icon{background:#5865F2;color:#fff}
+
+/* 공통 카드 */
+.card{background:#1e1e30;border:1px solid #333;border-radius:12px;padding:24px;cursor:pointer;text-decoration:none;display:block;transition:border-color 0.15s,background 0.15s;position:relative}
+.card:hover{border-color:#5dcff5;background:#252540}
+.card-title{font-size:18px;font-weight:700;color:#eee;margin-bottom:8px}
+.card-desc{font-size:12px;color:#888;line-height:1.6}
+.card-badge{position:absolute;top:16px;right:16px;font-size:10px;padding:3px 8px;border-radius:10px;background:rgba(93,207,245,0.15);color:#5dcff5;border:1px solid rgba(93,207,245,0.3)}
+
+/* 모바일 레이아웃 */
+.mobile-layout{display:flex;flex-direction:column;align-items:center}
+.mobile-layout h1{font-size:28px;margin-bottom:8px;text-align:center}
+.mobile-layout .subtitle{font-size:13px;color:#888;margin-bottom:40px;text-align:center}
+.mobile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;width:100%;max-width:900px}
+
+/* PC 레이아웃 */
+.pc-layout{display:none;max-width:1100px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:60px 24px}
+.pc-header{text-align:center;margin-bottom:40px}
+.pc-header h1{font-size:28px;margin-bottom:8px}
+.pc-header .subtitle{font-size:13px;color:#888}
+.pc-body{display:flex;gap:0}
+
+/* PC 왼쪽 카테고리 탭 */
+.pc-tabs{display:flex;flex-direction:column;gap:4px;width:160px;flex-shrink:0;padding-right:24px;border-right:1px solid #333}
+.pc-tab{padding:12px 16px;border-radius:8px;font-size:13px;font-weight:600;color:#888;cursor:pointer;transition:all 0.15s;border:none;background:none;text-align:left;font-family:inherit}
+.pc-tab:hover{color:#ccc;background:#252538}
+.pc-tab.active{color:#5dcff5;background:rgba(93,207,245,0.08);border-left:2px solid #5dcff5;padding-left:14px}
+
+/* PC 오른쪽 카드 영역 */
+.pc-cards{flex:1;padding-left:28px}
+.pc-category{display:none}
+.pc-category.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.pc-category-empty{color:#555;font-size:13px;padding:40px 0;text-align:center}
+
+@media(max-width:700px){
+  .mobile-layout{display:flex}
+  .pc-layout{display:none!important}
+}
+@media(min-width:701px){
+  .mobile-layout{display:none}
+  .pc-layout{display:block}
+}
 </style>
 </head>
 <body>
-<div id="top">
-  <h1 style="font-size:30px; margin-bottom:12px; color:#aaa;">Transc Grade made by nix</h1>
-  <div id="search-bar">
-    <input id="q" type="text" placeholder="Dragon name search..." oninput="render()">
+
+<!-- Mobile layout -->
+<div class="mobile-layout">
+  <h1>Dragon Info Site<br>made by Nix</h1>
+  <p class="subtitle">Choose a menu</p>
+  <div style="display:flex;justify-content:center;margin-bottom:12px">
+    <button class="patch-note-btn" onclick="openPatchModal()">
+      <span class="patch-note-icon">📋</span> Release Notes
+    </button>
   </div>
-  <div id="filter-row"></div>
-  <div id="count"></div>
+  <div class="contact-bar">
+    <a href="https://open.kakao.com/o/sgNwijri" target="_blank" class="contact-btn contact-kakao">
+      <span class="contact-icon">K</span>KakaoTalk
+    </a>
+    <a href="https://discord.com/users/629966669875511296" target="_blank" class="contact-btn contact-discord">
+      <span class="contact-icon">D</span>Discord
+    </a>
+  </div>
+  <div class="mobile-grid">
+    <a href="./tier.html" class="card">
+      <span class="card-badge">Info</span>
+      <div class="card-title">Tier List</div>
+      <div class="card-desc">Dragon tier info by element<br>Element · Type filter supported</div>
+    </a>
+    <a href="./dex.html" class="card">
+      <span class="card-badge">Info</span>
+      <div class="card-title">Dragon Dex</div>
+      <div class="card-desc">All 697 dragons info<br>Element · Type · Stage · Codable filter</div>
+    </a>
+    <a href="./sss.html" class="card">
+      <span class="card-badge">Info</span>
+      <div class="card-title">SSS Ranking</div>
+      <div class="card-desc">Lv.45 / Lv.21 SSS Dragon Ranking<br>Element filter supported</div>
+    </a>
+    <a href="./raid.html" class="card">
+      <span class="card-badge">Info</span>
+      <div class="card-title">Arha Gate</div>
+      <div class="card-desc">Didedrak combo, Pengr'ha combo<br>Auto-combo calculator</div>
+    </a>
+    <a href="./raid_info.html" class="card">
+      <span class="card-badge">Info</span>
+      <div class="card-title">Raid Info</div>
+      <div class="card-desc">Arha Field · Normal Raid · Lemuria<br>Detailed boss info</div>
+    </a>
+  </div>
 </div>
-<div id="panels"></div>
-<script>
-const elemConfig={
-  "Earth" :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/11.png", label:"Earth Element"},
-  "Water" :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/12.png", label:"Water Element"},
-  "Fire"  :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/13.png", label:"Fire Element"},
-  "Wind"  :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/14.png", label:"Wind Element"},
-  "Light" :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/84.png", label:"Light Element"},
-  "Dark"  :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/87.png", label:"Dark Element"},
-  "Dusk"  :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/487.png", label:"Dusk Element"},
-  "Dawn"  :{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/486.png", label:"Dawn Element"},
-  "Nightmare":{icon:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/icon/488.png", label:"Nightmare Element"},
-};
-function tierClass(g){
-  if(g>=7.0) return 't-blue';
-  if(g>=6.5) return 't-gold';
-  if(g>=4.5) return 't-silver';
-  if(g>=0)   return 't-pink';
-  return 't-neg';
-}
-const data=[
-{n:"Daros",e:"Earth",t:"ATK-DEF",lv:"X",g:7.0,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/1.png",ex:true},
-{n:"Pachy",e:"Earth",t:"DEF",lv:"O",g:6.8,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/2.png",ex:true},
-{n:"Zimon",e:"Earth",t:"ATK-DEF",lv:"O",g:6.7,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/3.png",ex:true},
-{n:"Non",e:"Earth",t:"HP-DEF",lv:"O",g:6.675,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/4.png",ex:true},
-{n:"Heimdallr",e:"Earth",t:"HP-DEF",lv:"O",g:6.6,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/5.png",ex:true},
-{n:"Vaska",e:"Earth",t:"ATK",lv:"O",g:6.6,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/6.png",ex:true},
-{n:"Liberte",e:"Earth",t:"HP-ATK",lv:"O",g:6.5,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/7.png",ex:true},
-{n:"Acaia",e:"Earth",t:"ATK-DEF",lv:"O",g:6.35,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/8.png",ex:true},
-{n:"Chroma Acaia",e:"Earth",t:"ATK-DEF",lv:"O",g:6.35,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/9.png",ex:true},
-{n:"Quetzalcoatl",e:"Earth",t:"HP-ATK",lv:"O",g:6.3,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/10.png",ex:true},
-{n:"Eggmayong",e:"Earth",t:"HP",lv:"O",g:6.3,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/11.png",ex:true},
-{n:"Aldebaran",e:"Earth",t:"HP",lv:"O",g:6.0,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/12.png",ex:true},
-{n:"Leo Vector",e:"Earth",t:"ATK",lv:"O",g:6.0,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/13.png",ex:true},
-{n:"Poison River",e:"Earth",t:"HP",lv:"O",g:5.9,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/14.png",ex:true},
-{n:"Astarte",e:"Earth",t:"HP-DEF",lv:"X",g:5.4,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/15.png",ex:true},
-{n:"Kanthaka",e:"Earth",t:"HP-DEF",lv:"X",g:5.225,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/16.png",ex:true},
-{n:"Earthquake",e:"Earth",t:"HP",lv:"O",g:4.85,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/17.png",ex:true},
-{n:"Popon",e:"Earth",t:"HP",lv:"O",g:4.5,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/18.png",ex:true},
-{n:"Layers",e:"Earth",t:"HP-ATK",lv:"O",g:4.3,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/19.png",ex:true},
-{n:"Appleche Dragon",e:"Earth",t:"HP",lv:"O",g:4.0,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/20.png",ex:true},
-{n:"Devilgon",e:"Earth",t:"ATK",lv:"X",g:2.1,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/21.png",ex:false},
-{n:"Flower Dragon",e:"Earth",t:"DEF",lv:"X",g:2.0,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/22.png",ex:false},
-{n:"Scorpion Dragon",e:"Earth",t:"ATK-DEF",lv:"O",g:1.95,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/23.png",ex:true},
-{n:"Collosus",e:"Earth",t:"HP-ATK",lv:"X",g:1.875,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/24.png",ex:true},
-{n:"Spine",e:"Earth",t:"ATK-DEF",lv:"O",g:1.45,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/25.png",ex:false},
-{n:"Python",e:"Earth",t:"HP-DEF",lv:"X",g:-0.2,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/26.png",ex:true},
-{n:"Mustard Hammer",e:"Earth",t:"HP-DEF",lv:"O",g:-0.35,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/27.png",ex:true},
-{n:"Egg Dragon",e:"Earth",t:"DEF",lv:"O",g:-0.675,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/28.png",ex:true},
-{n:"Smart Dragon",e:"Earth",t:"DEF",lv:"O",g:-0.675,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/29.png",ex:false},
-{n:"Fat Dragon",e:"Earth",t:"HP",lv:"O",g:-0.675,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/30.png",ex:false},
-{n:"Tiger Dragon",e:"Earth",t:"HP",lv:"O",g:-0.675,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/31.png",ex:false},
-{n:"Golden Horn Dragon",e:"Earth",t:"HP-DEF",lv:"O",g:-0.85,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/32.png",ex:false},
-{n:"Power Dragon",e:"Earth",t:"ATK",lv:"O",g:-1.275,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/33.png",ex:true},
-{n:"Hydra Dragon",e:"Earth",t:"HP-ATK",lv:"O",g:-2.175,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/34.png",ex:true},
-{n:"Underground Dragon",e:"Earth",t:"DEF",lv:"O",g:-2.175,img1:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img1/35.png",ex:true},
-{n:"Octa",e:"Water",t:"ATK-DEF",lv:"O",g:6.9,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/1.png",ex:true},
-{n:"Chroma Octa",e:"Water",t:"ATK-DEF",lv:"O",g:6.9,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/2.png",ex:true},
-{n:"Portunus",e:"Water",t:"DEF",lv:"O",g:6.7,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/3.png",ex:true},
-{n:"Skat",e:"Water",t:"DEF",lv:"O",g:6.6,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/4.png",ex:true},
-{n:"Loki",e:"Water",t:"DEF",lv:"O",g:6.575,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/5.png",ex:true},
-{n:"Myosotis",e:"Water",t:"ATK-DEF",lv:"O",g:6.5,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/6.png",ex:true},
-{n:"Rudra",e:"Water",t:"ATK",lv:"O",g:6.5,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/7.png",ex:true},
-{n:"Volva",e:"Water",t:"HP",lv:"O",g:6.5,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/8.png",ex:true},
-{n:"Yurqa",e:"Water",t:"HP",lv:"O",g:6.45,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/9.png",ex:true},
-{n:"Alresch",e:"Water",t:"HP",lv:"O",g:6.45,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/10.png",ex:true},
-{n:"Chroma Alresch",e:"Water",t:"HP",lv:"O",g:6.45,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/11.png",ex:true},
-{n:"Rusalka",e:"Water",t:"HP-ATK",lv:"O",g:6.4,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/12.png",ex:true},
-{n:"Fishing Tail Dragon",e:"Water",t:"ATK",lv:"O",g:6.3,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/13.png",ex:true},
-{n:"Blizzard",e:"Water",t:"ATK",lv:"O",g:6.25,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/14.png",ex:true},
-{n:"Frozen",e:"Water",t:"HP-ATK",lv:"O",g:6.2,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/15.png",ex:true},
-{n:"Regulus",e:"Water",t:"HP-DEF",lv:"O",g:5.3,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/16.png",ex:true},
-{n:"Chroma Regulus",e:"Water",t:"HP-DEF",lv:"O",g:5.3,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/17.png",ex:true},
-{n:"Bernhard",e:"Water",t:"ATK",lv:"O",g:5.2,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/18.png",ex:true},
-{n:"Secreta",e:"Water",t:"ATK-DEF",lv:"X",g:4.9,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/19.png",ex:true},
-{n:"Tropheus",e:"Water",t:"ATK-DEF",lv:"O",g:4.1,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/20.png",ex:true},
-{n:"Venom Dragon",e:"Water",t:"HP-ATK",lv:"O",g:4.0,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/21.png",ex:true},
-{n:"Luminesce",e:"Water",t:"ATK",lv:"X",g:3.2,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/22.png",ex:true},
-{n:"Withme",e:"Water",t:"DEF",lv:"O",g:3.05,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/23.png",ex:true},
-{n:"Vritra",e:"Water",t:"HP-ATK",lv:"X",g:2.925,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/24.png",ex:true},
-{n:"Violet Dragon",e:"Water",t:"HP-ATK",lv:"X",g:2.275,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/25.png",ex:false},
-{n:"Stud Dragon",e:"Water",t:"DEF",lv:"X",g:2.0,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/26.png",ex:false},
-{n:"Natron",e:"Water",t:"HP-DEF",lv:"O",g:1.9,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/27.png",ex:true},
-{n:"IceDrake",e:"Water",t:"ATK-DEF",lv:"X",g:1.9,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/28.png",ex:true},
-{n:"Snake Dragon",e:"Water",t:"DEF",lv:"O",g:1.55,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/29.png",ex:false},
-{n:"Shark Dragon",e:"Water",t:"ATK",lv:"O",g:1.45,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/30.png",ex:true},
-{n:"Purple Lips Dragon",e:"Water",t:"HP-DEF",lv:"O",g:1.225,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/31.png",ex:false},
-{n:"Swamp Dragon",e:"Water",t:"HP",lv:"O",g:-0.675,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/32.png",ex:true},
-{n:"Frost Dragon",e:"Water",t:"ATK",lv:"O",g:-1.275,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/33.png",ex:true},
-{n:"Slime Dragon",e:"Water",t:"HP-DEF",lv:"O",g:-2.1,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/34.png",ex:false},
-{n:"Fairy Dragon",e:"Water",t:"ATK",lv:"O",g:-2.175,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/35.png",ex:true},
-{n:"Ness",e:"Water",t:"HP",lv:"O",g:-2.175,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/36.png",ex:false},
-{n:"Water Dragon",e:"Water",t:"HP-DEF",lv:"O",g:-3.275,img2:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img2/37.png",ex:true},
-{n:"Figar",e:"Fire",t:"HP",lv:"O",g:6.825,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/1.png",ex:true},
-{n:"Chroma Figar",e:"Fire",t:"HP",lv:"O",g:6.825,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/2.png",ex:true},
-{n:"Thoth",e:"Fire",t:"DEF",lv:"O",g:6.8,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/3.png",ex:true},
-{n:"Firetail",e:"Fire",t:"ATK-DEF",lv:"O",g:6.7,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/4.png",ex:true},
-{n:"Chroma Firetail",e:"Fire",t:"ATK-DEF",lv:"O",g:6.7,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/5.png",ex:true},
-{n:"Red Horse Dragon",e:"Fire",t:"HP-ATK",lv:"O",g:6.7,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/6.png",ex:true},
-{n:"Blaze Dragon",e:"Fire",t:"HP-ATK",lv:"O",g:6.6,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/7.png",ex:true},
-{n:"Sura Dragon",e:"Fire",t:"ATK",lv:"O",g:6.5,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/8.png",ex:true},
-{n:"Lancenti",e:"Fire",t:"ATK",lv:"O",g:6.5,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/9.png",ex:true},
-{n:"Hwa Gui Dragon",e:"Fire",t:"HP-DEF",lv:"O",g:6.475,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/10.png",ex:true},
-{n:"Scartooth",e:"Fire",t:"DEF",lv:"O",g:6.4,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/11.png",ex:true},
-{n:"Chroma Scartooth",e:"Fire",t:"DEF",lv:"O",g:6.4,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/12.png",ex:true},
-{n:"Yeomhwa Dragon",e:"Fire",t:"HP",lv:"O",g:6.15,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/13.png",ex:true},
-{n:"Enturath",e:"Fire",t:"ATK",lv:"O",g:6.0,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/14.png",ex:true},
-{n:"Garuda",e:"Fire",t:"ATK-DEF",lv:"X",g:5.8,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/15.png",ex:true},
-{n:"Evil Dragon",e:"Fire",t:"ATK-DEF",lv:"X",g:5.5,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/16.png",ex:true},
-{n:"Popomo",e:"Fire",t:"HP",lv:"X",g:5.3,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/17.png",ex:true},
-{n:"Wild Dragon",e:"Fire",t:"DEF",lv:"X",g:4.9,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/18.png",ex:true},
-{n:"Igna",e:"Fire",t:"HP-DEF",lv:"O",g:4.7,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/19.png",ex:true},
-{n:"Rugar Dragon",e:"Fire",t:"DEF",lv:"X",g:4.5,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/20.png",ex:true},
-{n:"Tanatos",e:"Fire",t:"HP-DEF",lv:"O",g:4.4,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/21.png",ex:true},
-{n:"Futurum",e:"Fire",t:"HP-DEF",lv:"X",g:4.0,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/22.png",ex:true},
-{n:"Burnesce",e:"Fire",t:"ATK",lv:"X",g:2.6,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/23.png",ex:true},
-{n:"Iron Dragon",e:"Fire",t:"DEF",lv:"X",g:2.0,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/24.png",ex:true},
-{n:"Red Wybern",e:"Fire",t:"ATK",lv:"O",g:1.95,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/25.png",ex:true},
-{n:"Jaryong",e:"Fire",t:"HP-ATK",lv:"X",g:0.7,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/26.png",ex:true},
-{n:"Mneia",e:"Fire",t:"HP-ATK",lv:"X",g:0.025,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/27.png",ex:true},
-{n:"Redbull Dragon",e:"Fire",t:"HP-ATK",lv:"X",g:-0.175,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/28.png",ex:false},
-{n:"Insect Dragon",e:"Fire",t:"ATK-DEF",lv:"O",g:-0.275,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/29.png",ex:false},
-{n:"Sand Dragon",e:"Fire",t:"ATK-DEF",lv:"O",g:-0.275,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/30.png",ex:false},
-{n:"Spike Dragon",e:"Fire",t:"DEF",lv:"O",g:-0.675,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/31.png",ex:false},
-{n:"Lightning Dragon",e:"Fire",t:"HP-ATK",lv:"O",g:-1.275,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/32.png",ex:true},
-{n:"Fire Dragon",e:"Fire",t:"ATK",lv:"O",g:-2.175,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/33.png",ex:true},
-{n:"Phoenix",e:"Fire",t:"ATK",lv:"O",g:-2.175,img3:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img3/34.png",ex:true},
-{n:"Kigal",e:"Wind",t:"DEF",lv:"O",g:7.0,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/1.png",ex:true},
-{n:"Etoile Dragon",e:"Wind",t:"ATK-DEF",lv:"O",g:7.0,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/2.png",ex:true},
-{n:"Pitaya",e:"Wind",t:"ATK-DEF",lv:"O",g:7.0,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/3.png",ex:true},
-{n:"Tyr",e:"Wind",t:"HP-DEF",lv:"O",g:6.675,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/4.png",ex:true},
-{n:"Litio",e:"Wind",t:"DEF",lv:"O",g:6.6,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/5.png",ex:true},
-{n:"Chroma Litio",e:"Wind",t:"DEF",lv:"O",g:6.6,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/6.png",ex:true},
-{n:"Thor",e:"Wind",t:"ATK-DEF",lv:"O",g:6.6,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/7.png",ex:true},
-{n:"Blue Thunder",e:"Wind",t:"ATK",lv:"O",g:6.4,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/8.png",ex:true},
-{n:"Chroma Blue Thunder",e:"Wind",t:"ATK",lv:"O",g:6.4,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/9.png",ex:true},
-{n:"Centura",e:"Wind",t:"HP-DEF",lv:"X",g:6.075,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/10.png",ex:true},
-{n:"Lulu",e:"Wind",t:"HP-DEF",lv:"O",g:6.075,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/11.png",ex:true},
-{n:"Chroma Lulu",e:"Wind",t:"HP-DEF",lv:"O",g:6.075,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/12.png",ex:true},
-{n:"Boreas",e:"Wind",t:"HP-ATK",lv:"O",g:6.0,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/13.png",ex:true},
-{n:"Araca",e:"Wind",t:"ATK",lv:"X",g:5.675,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/14.png",ex:true},
-{n:"Gust Dragon",e:"Wind",t:"ATK",lv:"O",g:5.3,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/15.png",ex:true},
-{n:"Empire",e:"Wind",t:"HP",lv:"X",g:5.1,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/16.png",ex:true},
-{n:"Asti Dragon",e:"Wind",t:"ATK",lv:"X",g:5.0,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/17.png",ex:true},
-{n:"Spirit",e:"Wind",t:"HP",lv:"O",g:4.7,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/18.png",ex:true},
-{n:"Graytan",e:"Wind",t:"ATK-DEF",lv:"O",g:4.4,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/19.png",ex:true},
-{n:"Steelwing",e:"Wind",t:"DEF",lv:"X",g:4.2,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/20.png",ex:true},
-{n:"Striker",e:"Wind",t:"ATK",lv:"O",g:3.9,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/21.png",ex:true},
-{n:"Zephyros",e:"Wind",t:"HP-ATK",lv:"O",g:3.4,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/22.png",ex:true},
-{n:"Chaos",e:"Wind",t:"HP-ATK",lv:"X",g:2.6,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/23.png",ex:true},
-{n:"Spring Dragon",e:"Wind",t:"HP-DEF",lv:"X",g:2.6,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/24.png",ex:true},
-{n:"iGon",e:"Wind",t:"ATK-DEF",lv:"X",g:2.025,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/25.png",ex:false},
-{n:"Frosty",e:"Wind",t:"DEF",lv:"O",g:1.55,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/26.png",ex:false},
-{n:"Tyfoon Dragon",e:"Wind",t:"HP-DEF",lv:"X",g:1.225,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/27.png",ex:false},
-{n:"Guardian",e:"Wind",t:"HP",lv:"O",g:1.05,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/28.png",ex:false},
-{n:"Wing Dragon",e:"Wind",t:"ATK-DEF",lv:"O",g:-0.275,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/29.png",ex:false},
-{n:"Metal Magnet Dragon",e:"Wind",t:"ATK-DEF",lv:"O",g:-0.275,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/30.png",ex:false},
-{n:"Blue Dragon",e:"Wind",t:"ATK",lv:"O",g:-2.175,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/31.png",ex:true},
-{n:"Wind Dragon",e:"Wind",t:"HP",lv:"O",g:-2.175,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/32.png",ex:true},
-{n:"Six Legged Dragon",e:"Wind",t:"HP",lv:"O",g:-2.175,img4:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img4/33.png",ex:true},
-{n:"Sword",e:"Light",t:"ATK",lv:"O",g:7.0,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/1.png",ex:true},
-{n:"Gautling-gon",e:"Light",t:"DEF",lv:"O",g:6.9,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/2.png",ex:true},
-{n:"Artemis Dragon",e:"Light",t:"ATK-DEF",lv:"O",g:6.9,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/3.png",ex:true},
-{n:"Vargr",e:"Light",t:"ATK",lv:"O",g:6.7,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/4.png",ex:true},
-{n:"Solucanis",e:"Light",t:"DEF",lv:"O",g:6.7,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/5.png",ex:true},
-{n:"Protect Dragon",e:"Light",t:"DEF",lv:"O",g:6.575,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/6.png",ex:true},
-{n:"Chroma Protect Dragon",e:"Light",t:"DEF",lv:"O",g:6.575,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/7.png",ex:true},
-{n:"Aton",e:"Light",t:"ATK",lv:"O",g:6.4,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/8.png",ex:true},
-{n:"Shah",e:"Light",t:"ATK-DEF",lv:"O",g:6.4,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/9.png",ex:true},
-{n:"Merak",e:"Light",t:"HP-ATK",lv:"O",g:6.4,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/10.png",ex:true},
-{n:"Yajnir",e:"Light",t:"ATK",lv:"O",g:6.325,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/11.png",ex:true},
-{n:"Angel Jr.",e:"Light",t:"HP",lv:"O",g:6.2,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/12.png",ex:true},
-{n:"Atlus",e:"Light",t:"HP-ATK",lv:"O",g:6.15,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/13.png",ex:true},
-{n:"Talissah",e:"Light",t:"ATK-DEF",lv:"X",g:5.925,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/14.png",ex:true},
-{n:"Sola",e:"Light",t:"ATK",lv:"O",g:5.9,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/15.png",ex:true},
-{n:"White Thunder Dragon",e:"Light",t:"ATK-DEF",lv:"O",g:5.6,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/16.png",ex:true},
-{n:"Teddy Dragon",e:"Light",t:"HP-DEF",lv:"X",g:5.5,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/17.png",ex:true},
-{n:"Minas Dragon",e:"Light",t:"HP-ATK",lv:"O",g:5.35,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/18.png",ex:true},
-{n:"Karura",e:"Light",t:"ATK",lv:"X",g:5.0,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/19.png",ex:true},
-{n:"Asili",e:"Light",t:"HP-DEF",lv:"X",g:4.65,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/20.png",ex:true},
-{n:"Star Ace",e:"Light",t:"ATK-DEF",lv:"X",g:4.1,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/21.png",ex:true},
-{n:"Amanta",e:"Light",t:"ATK-DEF",lv:"O",g:3.8,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/22.png",ex:true},
-{n:"Citael",e:"Light",t:"HP",lv:"X",g:3.8,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/23.png",ex:true},
-{n:"Haze",e:"Light",t:"DEF",lv:"O",g:3.525,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/24.png",ex:true},
-{n:"Ordo",e:"Light",t:"ATK",lv:"X",g:3.5,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/25.png",ex:true},
-{n:"Bar'rah",e:"Light",t:"ATK-DEF",lv:"X",g:2.8,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/26.png",ex:true},
-{n:"Morika Dragon",e:"Light",t:"ATK",lv:"O",g:2.7,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/27.png",ex:true},
-{n:"Roloce",e:"Light",t:"DEF",lv:"X",g:2.1,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/28.png",ex:true},
-{n:"Argo Dragon",e:"Light",t:"ATK",lv:"O",g:2.0,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/29.png",ex:true},
-{n:"Pierrot Dragon",e:"Light",t:"HP",lv:"X",g:2.0,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/30.png",ex:false},
-{n:"Berna",e:"Light",t:"HP-ATK",lv:"X",g:1.9,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/31.png",ex:true},
-{n:"Siamese Dragon",e:"Light",t:"HP",lv:"O",g:1.55,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/32.png",ex:true},
-{n:"Knight Dragon",e:"Light",t:"DEF",lv:"O",g:1.55,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/33.png",ex:true},
-{n:"Spicy",e:"Light",t:"HP-ATK",lv:"O",g:1.55,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/34.png",ex:false},
-{n:"God Jr.",e:"Light",t:"ATK-DEF",lv:"O",g:1.45,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/35.png",ex:true},
-{n:"Rainbow",e:"Light",t:"HP",lv:"O",g:1.05,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/36.png",ex:false},
-{n:"Cupid Dragon",e:"Light",t:"ATK",lv:"O",g:0.2,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/37.png",ex:false},
-{n:"Ligon",e:"Light",t:"HP-ATK",lv:"O",g:0.2,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/38.png",ex:false},
-{n:"Rafael",e:"Light",t:"HP-DEF",lv:"O",g:-0.35,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/39.png",ex:true},
-{n:"White Dragon",e:"Light",t:"HP-DEF",lv:"O",g:-1.85,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/40.png",ex:true},
-{n:"Emerald Dragon",e:"Light",t:"HP-DEF",lv:"O",g:-2.1,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/41.png",ex:false},
-{n:"God Dragon",e:"Light",t:"HP-DEF",lv:"O",g:-2.575,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/42.png",ex:true},
-{n:"Angel Dragon",e:"Light",t:"HP-DEF",lv:"O",g:-2.575,img5:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img5/43.png",ex:true},
-{n:"Jormungandr",e:"Dark",t:"HP-ATK",lv:"O",g:7.0,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/1.png",ex:true},
-{n:"Lichmond",e:"Dark",t:"ATK-DEF",lv:"O",g:6.9,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/2.png",ex:true},
-{n:"Chroma Lichmond",e:"Dark",t:"ATK-DEF",lv:"O",g:6.9,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/3.png",ex:true},
-{n:"Makara",e:"Dark",t:"ATK-DEF",lv:"O",g:6.9,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/4.png",ex:true},
-{n:"Kubera",e:"Dark",t:"DEF",lv:"X",g:6.8,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/5.png",ex:true},
-{n:"Vetala",e:"Dark",t:"ATK",lv:"O",g:6.6,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/6.png",ex:true},
-{n:"Chroma Vetala",e:"Dark",t:"ATK",lv:"O",g:6.6,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/7.png",ex:true},
-{n:"Hatshya",e:"Dark",t:"ATK-DEF",lv:"O",g:6.525,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/8.png",ex:true},
-{n:"Porta",e:"Dark",t:"DEF",lv:"O",g:6.5,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/9.png",ex:true},
-{n:"Fides",e:"Dark",t:"HP-ATK",lv:"O",g:6.5,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/10.png",ex:true},
-{n:"Obex",e:"Dark",t:"ATK",lv:"O",g:6.5,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/11.png",ex:true},
-{n:"Tiamat",e:"Dark",t:"HP-ATK",lv:"O",g:6.425,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/12.png",ex:true},
-{n:"Azak",e:"Dark",t:"ATK",lv:"O",g:6.4,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/13.png",ex:true},
-{n:"Magnas",e:"Dark",t:"HP",lv:"O",g:6.3,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/14.png",ex:true},
-{n:"Caslux",e:"Dark",t:"HP",lv:"O",g:6.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/15.png",ex:true},
-{n:"Dragon Slayer",e:"Dark",t:"ATK-DEF",lv:"O",g:6.075,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/16.png",ex:true},
-{n:"Maloden",e:"Dark",t:"HP",lv:"X",g:5.4,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/17.png",ex:true},
-{n:"Behemoth",e:"Dark",t:"HP-DEF",lv:"X",g:5.1,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/18.png",ex:true},
-{n:"Karna",e:"Dark",t:"DEF",lv:"O",g:5.0,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/19.png",ex:true},
-{n:"Marbas",e:"Dark",t:"ATK-DEF",lv:"X",g:5.0,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/20.png",ex:true},
-{n:"Black Jindo",e:"Dark",t:"HP",lv:"X",g:4.3,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/21.png",ex:true},
-{n:"Dark Knight",e:"Dark",t:"HP-DEF",lv:"O",g:4.3,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/22.png",ex:true},
-{n:"Goat",e:"Dark",t:"HP-DEF",lv:"O",g:4.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/23.png",ex:true},
-{n:"Moon Light",e:"Dark",t:"HP",lv:"X",g:4.175,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/24.png",ex:true},
-{n:"Black Tear Dragon",e:"Dark",t:"HP",lv:"O",g:3.55,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/25.png",ex:true},
-{n:"Wonder Dragon",e:"Dark",t:"HP",lv:"O",g:3.4,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/26.png",ex:true},
-{n:"Time Machine",e:"Dark",t:"ATK",lv:"X",g:3.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/27.png",ex:true},
-{n:"Universe",e:"Dark",t:"HP-DEF",lv:"O",g:2.9,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/28.png",ex:true},
-{n:"Black Armor Dragon",e:"Dark",t:"DEF",lv:"X",g:2.825,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/29.png",ex:true},
-{n:"Franken Dragon",e:"Dark",t:"HP",lv:"X",g:2.0,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/30.png",ex:false},
-{n:"Dark Frosty",e:"Dark",t:"ATK",lv:"O",g:1.95,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/31.png",ex:false},
-{n:"Demong&Gargoyle",e:"Dark",t:"ATK-DEF",lv:"O",g:1.95,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/32.png",ex:false},
-{n:"Sigma Dragon",e:"Dark",t:"HP-ATK",lv:"X",g:1.8,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/33.png",ex:true},
-{n:"Baal",e:"Dark",t:"HP-ATK",lv:"X",g:1.6,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/34.png",ex:true},
-{n:"Dark Nix",e:"Dark",t:"HP-ATK",lv:"X",g:1.6,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/35.png",ex:true},
-{n:"Venezie",e:"Dark",t:"DEF",lv:"O",g:1.55,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/36.png",ex:true},
-{n:"Ghost Dragon",e:"Dark",t:"ATK",lv:"O",g:1.45,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/37.png",ex:false},
-{n:"Kuroy Dragon",e:"Dark",t:"DEF",lv:"O",g:1.375,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/38.png",ex:true},
-{n:"Dragonoid",e:"Dark",t:"HP-DEF",lv:"X",g:1.225,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/39.png",ex:false},
-{n:"Hyena Dragon",e:"Dark",t:"HP-ATK",lv:"O",g:1.05,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/40.png",ex:false},
-{n:"Crescent",e:"Dark",t:"HP-ATK",lv:"O",g:1.05,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/41.png",ex:false},
-{n:"Blade Dragon",e:"Dark",t:"ATK",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/42.png",ex:false},
-{n:"Contipede Dragon",e:"Dark",t:"ATK",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/43.png",ex:false},
-{n:"Hedgebat Dragon",e:"Dark",t:"ATK-DEF",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/44.png",ex:false},
-{n:"Mummy Dragon",e:"Dark",t:"HP-ATK",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/45.png",ex:false},
-{n:"Skelegon",e:"Dark",t:"HP-ATK",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/46.png",ex:false},
-{n:"Metal Dragon",e:"Dark",t:"HP-ATK",lv:"O",g:0.2,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/47.png",ex:false},
-{n:"Black Dragon",e:"Dark",t:"HP-ATK",lv:"O",g:-0.025,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/48.png",ex:true},
-{n:"Dark Fal",e:"Dark",t:"HP-ATK",lv:"X",g:-0.175,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/49.png",ex:false},
-{n:"Witch Dragon",e:"Dark",t:"HP-ATK",lv:"X",g:-0.675,img6:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img6/50.png",ex:false},
-{n:"Eclipse",e:"Dusk",t:"HP",lv:"O",g:7.0,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/1.png",ex:true},
-{n:"Hresvelgr",e:"Dusk",t:"HP",lv:"O",g:7.0,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/2.png",ex:true},
-{n:"Inverso",e:"Dusk",t:"HP-ATK",lv:"O",g:6.875,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/3.png",ex:true},
-{n:"Tilki",e:"Dusk",t:"ATK",lv:"O",g:6.8,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/4.png",ex:true},
-{n:"Manus",e:"Dusk",t:"HP-DEF",lv:"O",g:6.8,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/5.png",ex:true},
-{n:"Reginleif",e:"Dusk",t:"HP-ATK",lv:"O",g:6.75,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/6.png",ex:true},
-{n:"Chroma Reginleif",e:"Dusk",t:"HP-ATK",lv:"O",g:6.75,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/7.png",ex:true},
-{n:"Deathlock",e:"Dusk",t:"DEF",lv:"O",g:6.7,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/8.png",ex:true},
-{n:"Tempios",e:"Dusk",t:"HP",lv:"O",g:6.7,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/9.png",ex:true},
-{n:"Pride",e:"Dusk",t:"ATK-DEF",lv:"O",g:6.575,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/10.png",ex:true},
-{n:"Epit",e:"Dusk",t:"HP-DEF",lv:"O",g:6.5,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/11.png",ex:true},
-{n:"Nebula",e:"Dusk",t:"HP-ATK",lv:"O",g:6.1,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/12.png",ex:true},
-{n:"Chachawung",e:"Dusk",t:"DEF",lv:"O",g:6.0,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/13.png",ex:true},
-{n:"Seere",e:"Dusk",t:"DEF",lv:"O",g:5.7,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/14.png",ex:true},
-{n:"Pomekle",e:"Dusk",t:"ATK-DEF",lv:"O",g:5.6,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/15.png",ex:true},
-{n:"Characen",e:"Dusk",t:"ATK",lv:"O",g:5.275,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/16.png",ex:true},
-{n:"Rekmall Reverse",e:"Dusk",t:"HP-ATK",lv:"O",g:5.25,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/17.png",ex:true},
-{n:"Rexton",e:"Dusk",t:"ATK",lv:"O",g:4.775,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/18.png",ex:true},
-{n:"Harika",e:"Dusk",t:"ATK",lv:"O",g:4.25,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/19.png",ex:true},
-{n:"Vefal",e:"Dusk",t:"ATK-DEF",lv:"X",g:3.8,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/20.png",ex:true},
-{n:"Ballack",e:"Dusk",t:"HP-DEF",lv:"X",g:1.9,img7:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img7/21.png",ex:true},
-{n:"Mimir",e:"Dawn",t:"HP-DEF",lv:"O",g:7.0,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/1.png",ex:true},
-{n:"Cortus",e:"Dawn",t:"ATK-DEF",lv:"O",g:6.875,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/2.png",ex:true},
-{n:"Janus",e:"Dawn",t:"HP",lv:"O",g:6.8,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/3.png",ex:true},
-{n:"Kinder Dragon",e:"Dawn",t:"ATK-DEF",lv:"O",g:6.7,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/4.png",ex:true},
-{n:"Reward Dragon",e:"Dawn",t:"HP-ATK",lv:"O",g:6.6,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/5.png",ex:true},
-{n:"Aphrodite",e:"Dawn",t:"HP-DEF",lv:"O",g:6.6,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/6.png",ex:true},
-{n:"Amdusias",e:"Dawn",t:"ATK-DEF",lv:"O",g:6.4,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/7.png",ex:true},
-{n:"Rukbat",e:"Dawn",t:"HP-ATK",lv:"O",g:6.3,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/8.png",ex:true},
-{n:"Nebia",e:"Dawn",t:"HP-DEF",lv:"O",g:6.2,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/9.png",ex:true},
-{n:"Amaltheia",e:"Dawn",t:"HP",lv:"O",g:6.2,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/10.png",ex:true},
-{n:"Berith",e:"Dawn",t:"HP",lv:"O",g:6.0,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/11.png",ex:true},
-{n:"Eligos",e:"Dawn",t:"DEF",lv:"O",g:5.8,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/12.png",ex:true},
-{n:"Selmasa",e:"Dawn",t:"ATK",lv:"X",g:5.7,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/13.png",ex:true},
-{n:"Wrath",e:"Dawn",t:"DEF",lv:"O",g:5.7,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/14.png",ex:true},
-{n:"Ullr",e:"Dawn",t:"ATK",lv:"O",g:5.6,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/15.png",ex:true},
-{n:"Hapla",e:"Dawn",t:"ATK",lv:"O",g:5.4,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/16.png",ex:true},
-{n:"Taabire",e:"Dawn",t:"HP-ATK",lv:"X",g:4.2,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/17.png",ex:true},
-{n:"Harmonious Dragon",e:"Dawn",t:"DEF",lv:"O",g:4.2,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/18.png",ex:true},
-{n:"Harleybell",e:"Dawn",t:"HP-ATK",lv:"X",g:1.8,img8:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img8/19.png",ex:true},
-{n:"Beleth",e:"Nightmare",t:"DEF",lv:"O",g:7.0,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/1.png",ex:true},
-{n:"Chroma Beleth",e:"Nightmare",t:"DEF",lv:"O",g:7.0,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/2.png",ex:true},
-{n:"Corrupted Jormugandr",e:"Nightmare",t:"ATK",lv:"O",g:7.0,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/3.png",ex:true},
-{n:"Rude Ore",e:"Nightmare",t:"HP-ATK",lv:"O",g:6.9,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/4.png",ex:true},
-{n:"Lemures",e:"Nightmare",t:"ATK",lv:"O",g:6.9,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/5.png",ex:true},
-{n:"Jin",e:"Nightmare",t:"ATK-DEF",lv:"O",g:6.775,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/6.png",ex:true},
-{n:"Mysfit",e:"Nightmare",t:"DEF",lv:"O",g:6.7,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/7.png",ex:true},
-{n:"Valefor",e:"Nightmare",t:"HP-ATK",lv:"O",g:6.7,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/8.png",ex:true},
-{n:"Chroma Valefor",e:"Nightmare",t:"HP-ATK",lv:"O",g:6.7,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/9.png",ex:true},
-{n:"Vlad",e:"Nightmare",t:"HP",lv:"O",g:6.6,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/10.png",ex:true},
-{n:"Curse Reaper",e:"Nightmare",t:"ATK-DEF",lv:"O",g:6.6,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/11.png",ex:true},
-{n:"Crevasse",e:"Nightmare",t:"HP-ATK",lv:"O",g:6.4,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/12.png",ex:true},
-{n:"Slosi",e:"Nightmare",t:"ATK",lv:"O",g:6.2,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/13.png",ex:true},
-{n:"Nemus",e:"Nightmare",t:"HP",lv:"O",g:6.1,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/14.png",ex:true},
-{n:"Longinus",e:"Nightmare",t:"HP-DEF",lv:"O",g:6.075,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/15.png",ex:true},
-{n:"Animala",e:"Nightmare",t:"HP-DEF",lv:"O",g:5.8,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/16.png",ex:true},
-{n:"Dimension Dragon",e:"Nightmare",t:"ATK",lv:"O",g:5.5,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/17.png",ex:true},
-{n:"Jagan",e:"Nightmare",t:"ATK-DEF",lv:"X",g:4.7,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/18.png",ex:true},
-{n:"Dantalion",e:"Nightmare",t:"HP",lv:"X",g:4.4,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/19.png",ex:true},
-{n:"Mastema",e:"Nightmare",t:"HP-DEF",lv:"O",g:4.3,img9:"https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/img9/20.png",ex:true}
-];
-const elemOrder=["Earth","Water","Fire","Wind","Light","Dark","Dusk","Dawn","Nightmare"];
-let eFilter="all", tFilter="all";
-function buildFilters(){
-  const fr=document.getElementById("filter-row");
-  fr.innerHTML="";
-  const eLabel=document.createElement("span");
-  eLabel.textContent="Element";
-  eLabel.style="font-size:11px;color:#888;align-self:center;margin-right:2px";
-  fr.appendChild(eLabel);
-  ["all","Earth","Water","Fire","Wind","Light","Dark","Dusk","Dawn","Nightmare"].forEach(e=>{
-    const b=document.createElement("button");
-    b.className="ftag"+(eFilter===e?" active":"");
-    b.textContent=e;
-    b.onclick=()=>{eFilter=e;render();};
-    fr.appendChild(b);
-  });
-  const sep=document.createElement("div");
-  sep.style="width:100%;height:6px";
-  fr.appendChild(sep);
-  const tLabel=document.createElement("span");
-  tLabel.textContent="Type";
-  tLabel.style="font-size:11px;color:#888;align-self:center;margin-right:2px";
-  fr.appendChild(tLabel);
-  ["all","HP","ATK","DEF","HP-ATK","HP-DEF","ATK-DEF"].forEach(t=>{
-    const b=document.createElement("button");
-    b.className="ftag"+(tFilter===t?" active":"");
-    b.textContent=t;
-    b.onclick=()=>{tFilter=t;render();};
-    fr.appendChild(b);
-  });
-}
-function render(){
-  buildFilters();
-  const q=document.getElementById("q").value.trim();
-  const panels=document.getElementById("panels");
-  panels.innerHTML="";
-  let total=0;
-  const filteredElems=eFilter==="all"?elemOrder:[eFilter];
-  filteredElems.forEach(elem=>{
-    let list=data.filter(d=>d.e===elem);
-    if(tFilter!=="all") list=list.filter(d=>d.t===tFilter);
-    if(q) list=list.filter(d=>d.n.includes(q));
-    if(!list.length) return;
-    list=list.slice().sort((a,b)=>b.g-a.g);
-    total+=list.length;
-    const cfg=elemConfig[elem];
-    const panel=document.createElement("div");
-    panel.className=`panel panel-${elem}`;
-    const iconHtml=cfg.icon
-      ?`<div class="elem-icon"><img src="${cfg.icon}" alt="${elem}"></div>`
-      :`<div class="elem-icon" style="font-size:18px;background:rgba(0,0,0,0.25);width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center">${elem[0]}</div>`;
-    let rows="";
-    list.forEach((d,i)=>{
-      const imgMap={"Earth":"img1","Water":"img2","Fire":"img3","Wind":"img4","Light":"img5","Dark":"img6","Dusk":"img7","Dawn":"img8","Nightmare":"img9"};
-      const imgKey=imgMap[d.e]||"img1";
-      const imgSrc=d[imgKey]||"";
-      const imgCell=imgSrc
-        ?`<img src="${imgSrc}" class="dragon-img" alt="${d.n}">`
-        :`<div class="img-placeholder"></div>`;
-      rows+=`<tr class="${d.ex?'ex-true':'ex-false'}">
-        <td class="center rank">${i+1}</td>
-        <td class="center" style="width:42px">${imgCell}</td>
-        <td class="center"><span class="badge-type">${d.t}</span></td>
-        <td style="font-size:12px;font-weight:500">${d.n}</td>
-        <td class="center ${d.lv==='O'?'lv-o':'lv-x'}">${d.lv}</td>
-        <td class="center ${tierClass(d.g)}">${Number.isInteger(d.g)?d.g.toFixed(1):d.g}</td>
-      </tr>`;
-    });
-    panel.innerHTML=`
-      <div class="panel-header">
-        ${iconHtml}
-        <span>${cfg.label}</span>
+
+<!-- PC layout -->
+<div class="pc-layout">
+  <div class="pc-header">
+    <h1>Dragon Info Site made by Nix</h1>
+    <p class="subtitle">Choose a menu</p>
+    <div style="display:flex;justify-content:center;margin-top:12px;margin-bottom:8px">
+      <button class="patch-note-btn" onclick="openPatchModal()">
+        <span class="patch-note-icon">📋</span> Release Notes
+      </button>
+    </div>
+    <div class="contact-bar" style="margin-top:8px;margin-bottom:0">
+      <a href="https://open.kakao.com/o/sgNwijri" target="_blank" class="contact-btn contact-kakao">
+        <span class="contact-icon">K</span>KakaoTalk
+      </a>
+      <a href="https://discord.com/users/629966669875511296" target="_blank" class="contact-btn contact-discord">
+        <span class="contact-icon">D</span>Discord
+      </a>
+    </div>
+  </div>
+  <div class="pc-body">
+    <!-- Left tabs -->
+    <div class="pc-tabs">
+      <button class="pc-tab active" onclick="switchPCTab('info')">Info</button>
+      <button class="pc-tab" onclick="switchPCTab('guide')">Guides</button>
+      <button class="pc-tab" onclick="switchPCTab('weekly')">Weekly</button>
+    </div>
+    <!-- Right cards -->
+    <div class="pc-cards">
+      <!-- Info -->
+      <div class="pc-category active" id="pc-info">
+        <a href="./tier.html" class="card">
+          <span class="card-badge">Info</span>
+          <div class="card-title">Tier List</div>
+          <div class="card-desc">Dragon tier info by element<br>Element · Type filter supported</div>
+        </a>
+        <a href="./dex.html" class="card">
+          <span class="card-badge">Info</span>
+          <div class="card-title">Dragon Dex</div>
+          <div class="card-desc">All 697 dragons info<br>Element · Type · Stage · Codable filter</div>
+        </a>
+        <a href="./sss.html" class="card">
+          <span class="card-badge">Info</span>
+          <div class="card-title">SSS Ranking</div>
+          <div class="card-desc">Lv.45 / Lv.21 SSS Dragon Ranking<br>Element filter supported</div>
+        </a>
+        <a href="./raid.html" class="card">
+          <span class="card-badge">Info</span>
+          <div class="card-title">Arha Gate</div>
+          <div class="card-desc">Didedrak combo, Pengr'ha combo<br>Auto-combo calculator</div>
+        </a>
+        <a href="./raid_info.html" class="card">
+          <span class="card-badge">Info</span>
+          <div class="card-title">Raid Info</div>
+          <div class="card-desc">Arha Field · Normal Raid · Lemuria<br>Detailed boss info</div>
+        </a>
       </div>
-      <table>
-        <thead><tr>
-          <th style="width:24px"></th>
-          <th style="width:42px"></th>
-          <th class="center">Type</th>
-          <th class="left">Dragon</th>
-          <th class="center">Lv+</th>
-          <th class="center">Grade</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>`;
-    panels.appendChild(panel);
-  });
-  document.getElementById("count").textContent=`A total of ${total} dragons`;
+      <!-- Guides -->
+      <div class="pc-category" id="pc-guide">
+        <div class="pc-category-empty">Guides content coming soon.</div>
+      </div>
+      <!-- Weekly -->
+      <div class="pc-category" id="pc-weekly">
+        <div class="pc-category-empty">Weekly content coming soon.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="patch-modal-overlay" id="patch-modal-overlay" onclick="closePatchModal(event)">
+  <div class="patch-modal">
+    <button class="patch-modal-close" onclick="closePatchModal()">✕</button>
+    <div class="patch-modal-title">📋 Release Notes</div>
+    <div id="patch-modal-body">
+
+      <!-- Latest patch notes — add here -->
+      <div class="patch-item">
+        <div class="patch-item-header">
+          <span class="patch-version">v0.0.1</span>
+          <span class="patch-date">2026-04-20</span>
+          <span class="patch-item-badge badge-new">NEW</span>
+        </div>
+        <ul class="patch-item-content">
+          <li>Added multi-select for Element & Type</li>
+          <li>Added Dragon Dex with image support</li>
+          <li>Added SSS Ranking</li>
+          <li>Added Arha Gate combos & auto-combo calculator</li>
+          <li>Added Raid Info page</li>
+          <li>Improved mobile & PC UI</li>
+        </ul>
+      </div>
+
+    </div>
+    <a href="./patchnote.html" class="patch-more-btn">View all patch notes →</a>
+  </div>
+</div>
+
+<script>
+
+function openPatchModal() {
+  document.getElementById('patch-modal-overlay').classList.add('open');
 }
-render();
+function closePatchModal(e) {
+  if(!e || e.target === document.getElementById('patch-modal-overlay')) {
+    document.getElementById('patch-modal-overlay').classList.remove('open');
+  }
+}
+
+function switchPCTab(tab) {
+  document.querySelectorAll('.pc-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pc-category').forEach(c=>c.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('pc-'+tab).classList.add('active');
+}
 </script>
 </body>
 </html>
