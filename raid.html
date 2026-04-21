@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arha Gate</title>
+<title>Entrance to Archa</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Malgun Gothic',sans-serif;background:#1a1a2e;color:#eee;padding:12px}
@@ -115,6 +115,9 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 .boss-btn{padding:8px 20px;border-radius:8px;border:1px solid #444;background:#2a2a3e;color:#aaa;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .boss-btn:hover{border-color:#555;color:#eee}
 .boss-btn.active{background:#4a90d9;color:#fff;border-color:#4a90d9}
+.boss-tab{padding:8px 20px;font-size:13px;font-weight:600;background:none;border:none;border-bottom:2px solid transparent;color:#888;cursor:pointer;font-family:inherit;margin-bottom:-1px}
+.boss-tab:hover{color:#ccc}
+.boss-tab.active{color:#5dcff5;border-bottom:2px solid #5dcff5}
 #boss-select-section{max-width:480px;position:relative;overflow:hidden;transition:background-image 0.3s}
 #boss-select-bg{position:absolute;right:0;top:0;width:50%;height:100%;background-size:contain;background-repeat:no-repeat;background-position:right center;opacity:0.25;pointer-events:none;transition:background-image 0.3s}
 #boss-select-content{position:relative;z-index:1}
@@ -138,7 +141,8 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 .info-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a90d9;color:#fff;font-size:10px;font-weight:700;cursor:pointer;margin-left:6px;position:relative;flex-shrink:0;vertical-align:middle}
 .info-tooltip{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:#252538;border:1px solid #4a90d9;border-radius:8px;padding:14px 16px;width:420px;font-size:12px;color:#ddd;line-height:2;z-index:200;white-space:normal;text-align:left;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
 .info-tooltip::after{content:"";position:absolute;left:50%;transform:translateX(-50%);top:100%;border:6px solid transparent;border-top-color:#4a90d9}
-.info-icon:hover .info-tooltip{display:block}
+.info-icon:hover .info-tooltip,
+.info-icon.active .info-tooltip{display:block}
 .info-tooltip b{color:#5dcff5}
 
 .fail-msg{background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:8px;padding:12px;font-size:12px;color:#ef5350;margin-top:8px}
@@ -154,53 +158,69 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
   <a href="./tier.html" class="tab-btn">Tier List</a>
   <a href="./dex.html" class="tab-btn">Dragon Dex</a>
   <a href="./sss.html" class="tab-btn">SSS Ranking</a>
-  <a href="./raid.html" class="tab-btn">Arha Gate</a>
+  <a href="./raid.html" class="tab-btn">Entrance to Archa</a>
   <a href="./raid_info.html" class="tab-btn">Raid Info</a>
 </div>
 
 <div style="display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:16px">
-  <button class="main-tab active" id="main-tab-raid" onclick="switchMainTab('raid')">Didedrak Combo</button>
+  <button class="main-tab active" id="main-tab-raid" onclick="switchMainTab('raid')">Mystery Boss combo</button>
   <button class="main-tab" id="main-tab-daily" onclick="switchMainTab('daily')">Normal Boss</button>
 </div>
 
 <div id="section-raid">
-<h1>Arha Gate</h1>
+<h1>Entrance to Archa
+   <span class="info-icon" onclick="toggleTooltip(this)">!
+    <div class="info-tooltip" style="left:0;transform:none;width:280px;bottom:auto;top:calc(100% + 8px)">
+      Mothbell: break combo 2 (it's possible to break combo 1 instead but very hard to win)
+      <br>Incara: break combo 1
+      <br>Tau King: break combo 1 (you can break combo 2 but it takes a relatively long time to win)
+      <br>Golrock: break combo 1 (you can break combo 2 but it takes a really long time to win)
+      <br>Kaiserburn: break combo 1 (it's possible to break combo 2 instead but much more difficult to win)
+    </div>
+  </span>
+</h1>
 
 <!-- 보스 선택 -->
 <div class="section" id="boss-select-section">
   <div id="boss-select-bg" style="background-image:url('https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/6.png')"></div>
   <div id="boss-select-content">
     <div class="section-title">Boss Select</div>
-    <div style="display:flex;gap:8px">
-      <button class="boss-btn active" id="boss-btn-dimension" onclick="selectBoss('dimension')">Dimension</button>
-      <button class="boss-btn" id="boss-btn-deathlock" onclick="selectBoss('deathlock')">Deathlock</button>
+    <div style="display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:12px">
+      <button class="boss-tab active" id="boss-btn-dimension" onclick="selectBoss('dimension')">Dimension</button>
+      <button class="boss-tab" id="boss-btn-deathlock" onclick="selectBoss('deathlock')">Deathlock</button>
+    </div>
+    <div id="boss-desc-dimension" style="font-size:11px;color:#5dcff5;font-weight:400;line-height:1.7">
+      Defeat one of the Sunday bosses (Sullivan,...) or defeat one of the Weekday bosses (Mothbell,...) with at least one combo missing. After winning the battle, return to the main screen and click on rainbow-colored question to enter Dimension fight.
+    </div>
+    <div id="boss-desc-deathlock" style="display:none;font-size:11px;color:#5dcff5;font-weight:400;line-height:1.7">
+      Fight Dimension without using its combinations. After losing the battle, go to the main screen and click on blue-colored question to enter Deathlock fight.
     </div>
   </div>
 </div>
 
 <!-- 패턴 정보 -->
 <div class="section">
-  <div class="section-title">Boss Patterns (Full Break Goals)</div>
+  <div class="section-title">Boss Patterns (Objectives to Fully Counter Them)</div>
   <div class="pattern-grid" id="pattern-grid">
     <!-- 디멘션 패턴 -->
     <div class="pattern-item boss-dimension">
       <div>
-        <div class="pattern-name">(1) Evasion on Hit</div>
-        <div class="pattern-desc">+3% Evasion per hit</div>
+        <div class="pattern-name">(1) Increase Evasion rate</div>
+        <div class="pattern-desc">The boss increases evasion rate by 3% upon getting damaged every turn.</div>
         <div class="pattern-cond">Fire x2 · ATK-DEF x2</div>
       </div>
     </div>
     <div class="pattern-item boss-dimension">
       <div>
         <div class="pattern-name">(2) Random Heavy DMG</div>
-        <div class="pattern-desc">Basic attack deals heavy DMG to 2 random targets</div>
+        <div class="pattern-desc">Basic attack deals heavy DMG to 2 random targets.</div>
         <div class="pattern-cond">Nightmare x2 · HP x2</div>
       </div>
     </div>
     <div class="pattern-item boss-dimension">
       <div>
         <div class="pattern-name">(3) DMG Reduction</div>
-        <div class="pattern-desc">Boss greatly reduces incoming damage</div>
+        <div class="pattern-desc">The boss significantly reduces damage taken.</div>
         <div class="pattern-cond">Dawn x2 · HP-ATK x2</div>
       </div>
     </div>
@@ -214,29 +234,36 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <div class="pattern-item boss-dimension">
       <div>
         <div class="pattern-name">(5) HP Recovery</div>
-        <div class="pattern-desc">Fully recovers HP and re-engages when depleted</div>
+        <div class="pattern-desc">When HP is depleted, the boss fully restores HP and the fight restarts.</div>
         <div class="pattern-cond">Dark x2 · ATK x2</div>
+      </div>
+    </div>
+     <div class="pattern-item boss-dimension">
+      <div>
+        <div class="pattern-name">(6) ATK Increase</div>
+        <div class="pattern-desc">?</div>
+        <div class="pattern-cond">Same evolution stage</div>
       </div>
     </div>
     <!-- 데스락 패턴 -->
     <div class="pattern-item boss-deathlock" style="display:none">
       <div>
         <div class="pattern-name">(1) HP Recovery</div>
-        <div class="pattern-desc">Boss recovers a set amount of HP each turn</div>
+        <div class="pattern-desc">The boss recovers a set amount of HP each turn.</div>
         <div class="pattern-cond">Wind x2 · HP x2</div>
       </div>
     </div>
     <div class="pattern-item boss-deathlock" style="display:none">
       <div>
         <div class="pattern-name">(2) ATK Increase</div>
-        <div class="pattern-desc">Boss's ATK gradually increases</div>
+        <div class="pattern-desc">The boss's ATK gradually increases.</div>
         <div class="pattern-cond">Dark x2 · ATK-DEF x2</div>
       </div>
     </div>
     <div class="pattern-item boss-deathlock" style="display:none">
       <div>
         <div class="pattern-name">(3) DEF Increase</div>
-        <div class="pattern-desc">Boss's DEF gradually increases</div>
+        <div class="pattern-desc">The boss's DEF gradually increases.</div>
         <div class="pattern-cond">Dawn x2</div>
       </div>
     </div>
@@ -249,8 +276,8 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     </div>
     <div class="pattern-item boss-deathlock" style="display:none">
       <div>
-        <div class="pattern-name">(5) DEF x1.5 Buff</div>
-        <div class="pattern-desc">Ally DEF x1.5 increase</div>
+        <div class="pattern-name">(5) Allies' DEF Increase</div>
+        <div class="pattern-desc">Allies’ DEF increases by 50%</div>
         <div class="pattern-cond">Earth x2 · DEF x2</div>
       </div>
     </div>
@@ -290,30 +317,35 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
 
 </div><!-- /section-raid -->
 <div id="section-daily" style="display:none">
-<h1 style="margin-bottom:16px">Normal Boss Patterns</h1>
-
+<h1 style="margin-bottom:16px">Normal Boss Patterns
+  <span style="display:block; font-size:13px; color:#888; font-weight:normal; margin-top:4px">
+    Using fewer than 3 or more than 5 of the requested dragons will break corresponding combos.
+    When defeating the bosses with at least one combo missing, a Dimension gate will open.
+  </span>
+</h1>
 <!-- 월요일 -->
 <div class="section boss-section">
   <div class="boss-header">
     <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/1.png" class="boss-portrait" alt="Monday — Mosvell">
     <div class="boss-header-text">
       <div class="section-title">Monday — Mosvell</div>
-      <div style="font-size:11px;color:#888">Drop: Moon Essence &nbsp;|&nbsp; Min EVAL (solo): 10000~11000</div>
+      <div style="font-size:11px;color:#888">(Hp 19.000, Atk 2.300, Def 60)</div>
+      <div style="font-size:11px;color:#888">Drop: Dark Essence &nbsp;|&nbsp; Min EVAL (solo): 10000~11000</div>
     </div>
   </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(1) Evasion Rate on Hit</div>
-        <div class="pattern-desc">+3% Evasion rate per hit</div>
-        <div class="pattern-cond">Fire x3 · ATK x3</div>
+        <div class="pattern-name">(1) Swift Wings (Evasion)</div>
+        <div class="pattern-desc">Enemy: Evasion rate increases by 3% each time it takes damage</div>
+        <div class="pattern-cond">3 Fire, 3 Atk</div>
       </div>
     </div>
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(2) Strong AoE Attack</div>
-        <div class="pattern-desc">Strong AoE attack every 3 turns</div>
-        <div class="pattern-cond">Wind x3 · HP-ATK x3</div>
+        <div class="pattern-name">(2) Poison Powder (AoE)</div>
+        <div class="pattern-desc">Deals area of effect damage once every 3 turns</div>
+        <div class="pattern-cond">3 Wind, 3 Hp-atk</div>
       </div>
     </div>
   </div>
@@ -325,22 +357,25 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/2.png" class="boss-portrait" alt="Tuesday — Ingkara">
     <div class="boss-header-text">
       <div class="section-title">Tuesday — Ingkara</div>
+      <div style="font-size:11px;color:#888">(Hp 9.000, Atk 3.000, Def 100)</div>
       <div style="font-size:11px;color:#888">Drop: Fire Essence &nbsp;|&nbsp; Min EVAL (solo): 10000~11000</div>
     </div>
   </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(1) AoE 3x DMG</div>
-        <div class="pattern-desc">Basic attack deals 3x DMG to 4 random targets</div>
-        <div class="pattern-cond">Water x3 · NEU x3</div>
+        <div class="pattern-name">(1) Firestorm (AoE)</div>
+        <div class="pattern-desc">Deals 2x damage to 3 random targets
+          <br>(not applicable to single-target attacks)</div>
+        <div class="pattern-cond">3 Earth, 3 Atk</div>
       </div>
     </div>
     <div class="pattern-item">
       <div>
         <div class="pattern-name">(2) AoE 2x DMG</div>
-        <div class="pattern-desc">Basic attack deals 2x DMG to 3 random targets</div>
-        <div class="pattern-cond">Earth x3 · ATK x3</div>
+        <div class="pattern-desc">When Hp falls below 50%, deals 3x damage to 4 random targets
+          <br>(not applicable to single-target attacks)</div>
+        <div class="pattern-cond">3 Water, 3 Neu</div>
       </div>
     </div>
   </div>
@@ -352,22 +387,23 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/3.png" class="boss-portrait" alt="Wednesday — Tauking">
     <div class="boss-header-text">
       <div class="section-title">Wednesday — Tauking</div>
+      <div style="font-size:11px;color:#888">(Hp 160.000, Atk ???, Def ???)</div>
       <div style="font-size:11px;color:#888">Drop: Water Essence &nbsp;|&nbsp; Min EVAL (solo): 7000</div>
     </div>
   </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(1) HP Recovery + area attack</div>
-        <div class="pattern-desc">HP regen on attack + all attacks become AoE</div>
-        <div class="pattern-cond">Dark x3 · HP-ATK x3</div>
+        <div class="pattern-name">(1) Beast Vitality (Healing + AoE)</div>
+        <div class="pattern-desc">Recovers Hp every attack and all attacks become AoE</div>
+        <div class="pattern-cond">3 Dark, 3 Hp-atk</div>
       </div>
     </div>
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(2) Full HP Revive</div>
-        <div class="pattern-desc">Fully recovers HP and re-engages when depleted</div>
-        <div class="pattern-cond">Dusk x3 · HP x3</div>
+        <div class="pattern-name">(2) Beast Wrath (Revival)</div>
+        <div class="pattern-desc">After Hp reaches 0, revives and receives damage after ? turns.</div>
+        <div class="pattern-cond">3 Dusk, 3 Hp</div>
       </div>
     </div>
   </div>
@@ -379,22 +415,23 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/4.png" class="boss-portrait" alt="Thursday — Golrock">
     <div class="boss-header-text">
       <div class="section-title">Thursday — Golrock</div>
+      <div style="font-size:11px;color:#888">(Hp 6.000, Atk 1.600, Def 300)</div>
       <div style="font-size:11px;color:#888">Drop: Earth Essence, Golrock Egg C~A &nbsp;|&nbsp; Min EVAL (solo): 11000~12000</div>
     </div>
   </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(1) 70-Turn Undying</div>
-        <div class="pattern-desc">Fights for 70 turns without dying when HP depleted</div>
-        <div class="pattern-cond">Dawn x3 · DEF x3</div>
+        <div class="pattern-name">(1) Rock Armor (Durability Boost)</div>
+        <div class="pattern-desc">Takes only 30% of incoming damage.</div>
+        <div class="pattern-cond">3 Light, 3 Atk-def</div>
       </div>
     </div>
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(2) Ignore 70% DMG</div>
-        <div class="pattern-desc">Ignores 70% of incoming damage</div>
-        <div class="pattern-cond">Light x3 · ATK-DEF x3</div>
+        <div class="pattern-name">(2) Rage Explosion (Berserker)</div>
+        <div class="pattern-desc">After Hp reaches 0, survives for 70 turns before dying.</div>
+        <div class="pattern-cond">3 Dawn, 3 Def</div>
       </div>
     </div>
   </div>
@@ -406,32 +443,35 @@ h1{font-size:20px;color:#aaa;margin-bottom:16px}
     <img src="https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/5.png" class="boss-portrait" alt="Friday — Kaiserburn">
     <div class="boss-header-text">
       <div class="section-title">Friday — Kaiserburn</div>
+      <div style="font-size:11px;color:#888">(Hp 20.000, Atk 2.500, Def 60)</div>
       <div style="font-size:11px;color:#888">Drop: Sun Essence, Kaiserburn Egg C~A &nbsp;|&nbsp; Min EVAL (solo): 11000~12000</div>
     </div>
   </div>
   <div class="pattern-grid">
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(1) DMG Reflect</div>
-        <div class="pattern-desc">Reflects 300% of received DMG to 5 random targets when HP ≤ 50%</div>
-        <div class="pattern-cond">Nightmare x3 · NEU x3</div>
+        <div class="pattern-name">(1) Scream of Terror</div>
+        <div class="pattern-desc">Cannot evade, block, and crit</div>
+        <div class="pattern-cond"> 3 Light, 3 Hp-def</div>
       </div>
     </div>
     <div class="pattern-item">
       <div>
-        <div class="pattern-name">(2) Seal Crit/Evasion/DEF</div>
-        <div class="pattern-desc">Seals all ally Crit/Evasion/DEF for this battle</div>
-        <div class="pattern-cond">Light x3 · HP-DEF x3</div>
+        <div class="pattern-name">(2) Soul Link (Reflection)</div>
+        <div class="pattern-desc">When Hp drops to 50%, reflects 300% damage to 5 random targets each time it takes damage.</div>
+        <div class="pattern-cond">3 Nightmare, 3 Neu</div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- 토요일 -->
 <div class="section">
   <div class="section-title">Saturday — Random Boss</div>
   <div style="font-size:11px;color:#888;margin-bottom:4px">Random boss from Mon–Fri · Same strategy applies</div>
 </div>
+
 
 </div><!-- /section-daily -->
 
@@ -762,10 +802,12 @@ let currentBoss = 'dimension';
 
 function selectBoss(boss) {
   currentBoss = boss;
-  document.querySelectorAll('.boss-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.boss-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('boss-btn-' + boss).classList.add('active');
   document.querySelectorAll('.boss-dimension').forEach(el => el.style.display = boss==='dimension' ? '' : 'none');
   document.querySelectorAll('.boss-deathlock').forEach(el => el.style.display = boss==='deathlock' ? '' : 'none');
+  document.getElementById('boss-desc-dimension').style.display = boss==='dimension' ? '' : 'none';
+  document.getElementById('boss-desc-deathlock').style.display = boss==='deathlock' ? '' : 'none';
   const imgMap = {dimension:'https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/6.png', deathlock:'https://raw.githubusercontent.com/yejoo0519/dogam/refs/heads/main/boss/7.png'};
   document.getElementById('boss-select-bg').style.backgroundImage = `url('${imgMap[boss]}')`;
   saveToStorage();
@@ -1109,6 +1151,21 @@ function showResult(result, conditions) {
 
 init();
 loadFromStorage();
+
+function toggleTooltip(el) {
+  el.classList.toggle('active');
+  // 다른 열린 툴팁 닫기
+  document.querySelectorAll('.info-icon.active').forEach(other => {
+    if(other !== el) other.classList.remove('active');
+  });
+}
+
+// 툴팁 밖 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  if(!e.target.closest('.info-icon')) {
+    document.querySelectorAll('.info-icon.active').forEach(el => el.classList.remove('active'));
+  }
+});
 
 </script>
 </body>
